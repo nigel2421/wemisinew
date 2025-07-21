@@ -1,8 +1,8 @@
 /* --- CSS Variables and Global Styles --- */
 :root {
-    --primary-color: #E6A4B4; /* Soft Pink */
+    --primary-color: #6757d0; /* Soft Pink */
     --secondary-color: #FDF5E6; /* Creamy White */
-    --text-color: #4A4A4A; /* Dark Gray */
+    --text-color: #000000; /* Dark Gray */
     --heading-font: 'Playfair Display', serif;
     --body-font: 'Lato', sans-serif;
 }
