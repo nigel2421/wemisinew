@@ -9,12 +9,29 @@ document.addEventListener('DOMContentLoaded', () => {
         // Optional: Animate the hamburger icon itself
         hamburger.classList.toggle('toggle');
 
-        // To achieve the 3-bar to "X" animation, we'll name the spans
-        const bars = hamburger.querySelectorAll('span');
-        bars[0].classList.toggle('bar1');
-        bars[1].classList.toggle('bar2');
-        bars[2].classList.toggle('bar3');
+        // Animate the hamburger icon to an "X"
+        const bars = hamburger.querySelectorAll('span:not(.sr-only)');
+        if (bars.length === 3) {
+            bars[0].classList.toggle('bar1');
+            bars[1].classList.toggle('bar2');
+            bars[2].classList.toggle('bar3');
+        }
     });
+
+    // Hero Slider for index.html
+    const heroSlider = document.querySelector('.hero-slider');
+    if (heroSlider) {
+        const slides = heroSlider.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
+
+        if (slides.length > 1) {
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 5000); // Change slide every 5 seconds
+        }
+    }
 
     // Functionality for the Contact Us form to send data via WhatsApp
     const sendMessageBtn = document.getElementById('sendMessageBtn');
