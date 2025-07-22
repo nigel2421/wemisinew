@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - WEMISI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../macarons/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <style>
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .cart-table th, .cart-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .cart-table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .cart-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .remove-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .remove-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .checkout-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">WEMISI </a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="list.html">Products</a></li>
+                    <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+                    <!--<li><a href="#">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>-->
+                </ul>
+            </nav>
+            <button class="hamburger" id="hamburger-menu" title="Open navigation menu" aria-label="Open navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Your Shopping Cart</h1>
+            <div id="cartItems">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Cart items will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+            <button id="checkoutButton" class="checkout-btn">Checkout via WhatsApp</button>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            const checkoutButton = document.getElementById('checkoutButton');
+            const cartTableBody = cartItemsDiv.querySelector('tbody');
+            const cartCountSpan = document.getElementById('cart-count');
+
+            // Retrieve cart from localStorage
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+            // Function to display cart items in the table
+            function displayCart() {
+                cartTableBody.innerHTML = ''; // Clear existing content
+
+                if (cart.length === 0) {
+                    cartTableBody.innerHTML = '<tr><td colspan="3">Your cart is empty.</td></tr>';
+                } else {
+                    cart.forEach((item, index) => {
+                        let row = `
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.price}</td>
+                                <td><button class="remove-btn" data-index="${index}">Remove</button></td>
+                            </tr>
+                        `;
+                        cartTableBody.innerHTML += row;
+                    });
+                }
+
+                // Update cart count display
+                cartCountSpan.textContent = cart.length;
+            }
+
+            // Initial display of cart items
+            displayCart();
+
+            // Remove item from cart
+            cartTableBody.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-btn')) {
+                    const indexToRemove = event.target.dataset.index;
+                    cart.splice(indexToRemove, 1);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    displayCart(); // Update the cart display
+                }
+            });
+
+            // Checkout button functionality
+            checkoutButton.addEventListener('click', function() {
+                // Format cart data for WhatsApp
+                let message = "My Order:\n";
+                cart.forEach(item => {
+                    message += `${item.name} - ${item.price}\n`;
+                });
+                message += "\nPlease confirm my order!";
+
+                // Create WhatsApp link
+                const whatsappLink = `https://wa.me/254721202052?text=${encodeURIComponent(message)}`;
+
+                // Open WhatsApp in a new tab
+                window.open(whatsappLink, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>

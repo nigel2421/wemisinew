@@ -21,9 +21,10 @@
                     <li><a href="list.html">Products</a></li>
                     <!--<li><a href="#">About</a></li>
                     <li><a href="contact.html">Contact</a></li>-->
+                    <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
                 </ul>
             </nav>
-            <button class="hamburger" id="hamburger-menu">
+            <button class="hamburger" id="hamburger-menu" aria-label="Open navigation menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -52,8 +53,9 @@
                     <li>Buttercream</li>
                 </ul>-->
                 <a href="marble.html" class="btn btn-secondary">← Back to All Marble Products</a>
-                <a href="https://wa.me/254721202052?text=I%20would%20like%20to%20order%20the%20Marble%20Forest%20Green" class="btn btn-success ms-3" target="_blank"><i class="bi bi-whatsapp me-4"></i>Order via WhatsApp</a>
-            </div>
+                <a href="https://wa.me/254721202052?text=I%20would%20like%20to%20order%20the%20Marble%20Forest%20Green" class="btn btn-success ms-3" target="_blank" rel="noopener"><i class="bi bi-whatsapp me-4"></i>Order via WhatsApp</a>
+
+            <button class="btn btn-primary ms-3" id="addToCart">Add to Cart</button>
         </div>
     </main>
 
@@ -61,7 +63,38 @@
         <div class="container">
             <p>© 2025 WEMISI . All Rights Reserved.</p>
         </div>
-    </footer>
+    </footer>\
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToCartButton = document.getElementById('addToCart');
+            addToCartButton.addEventListener('click', function() {
+                // Get product details
+                const productName = document.querySelector('h1').innerText;
+                const productPrice = document.querySelector('.price').innerText;
+
+                // Basic cart functionality (using localStorage)
+                let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: productName, price: productPrice });
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                alert('Added to cart!'); // Simple feedback
+
+                // Optionally, update a cart counter on the page
+            });
+        });
+    </script>
+
+    <script>
+        // Function to update the cart count in the header
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const cartCountSpan = document.getElementById('cart-count');
+            cartCountSpan.innerText = cart.length;
+        }
+
+        // Call updateCartCount on page load
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
 
     <script src="js/script.js"></script>
 </body>

@@ -21,9 +21,10 @@
                     <li><a href="list.html">Products</a></li>
                     <!--<li><a href="#">About</a></li>
                     <li><a href="contact.html">Contact</a></li>-->
+                    <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
                 </ul>
             </nav>
-            <button class="hamburger" id="hamburger-menu">
+            <button class="hamburger" id="hamburger-menu" aria-label="Open navigation menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -107,6 +108,17 @@
             <p>© 2025 WEMISI . All Rights Reserved.</p>
         </div>
     </footer>
+    <script>
+        // Function to update the cart count in the header
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const cartCountSpan = document.getElementById('cart-count');
+            cartCountSpan.innerText = cart.length;
+        }
+
+        // Call updateCartCount on page load
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
 
     <script src="js/script.js"></script>
 </body>
